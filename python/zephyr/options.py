@@ -6,9 +6,9 @@ def checkArgs(args):
 def getOptions():
     parser = argparse.ArgumentParser()
     '''Dataset settings'''
-    parser.add_argument("--dataset_root", type=str, nargs="+", default=['/datasets/ycb/matches_data_train/'],
+    parser.add_argument("--dataset_root", type=str, nargs="+", default=['data/ycb/matches_data_train/'],
         help="paths to the folder containing the dataset. ")
-    parser.add_argument("--bop_root", type=str, default="/datasets/bop/",
+    parser.add_argument("--bop_root", type=str, default="data/bop/",
         help="Path to the BOP datasets root, mainly used for bop_toolkit. ")
     parser.add_argument("--feature_size", type=int, default=11,
         help="The size of the SIFT features. ")

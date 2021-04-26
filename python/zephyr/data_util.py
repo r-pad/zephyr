@@ -6,7 +6,7 @@ import os, pickle, glob
 import csv
 import copy
 
-from oriented_features.pose_scoring_lightning.constants import YCBV_TRAIN_SCENE, YCBV_VALID_SCENE, YCBV_BOPTEST_SCENE
+from zephyr.constants import YCBV_TRAIN_SCENE, YCBV_VALID_SCENE, YCBV_BOPTEST_SCENE
 
 def loadData(object_id, scene_id, im_id, feature_size = 11, base_path = "/datasets/ycb/matches_data_full/"):
     try:

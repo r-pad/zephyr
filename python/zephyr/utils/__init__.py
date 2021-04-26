@@ -3,6 +3,13 @@ import torch
 
 import torch
 
+
+def to_np(x):
+    if torch.is_tensor(x):
+        return x.detach().cpu().numpy()
+    else:
+        return x.detach().data.cpu().numpy()
+
 def meta2K(meta_data):
     if type(meta_data['camera_fx']) is torch.Tensor:
         cam_K = np.asarray([

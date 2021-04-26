@@ -5,15 +5,13 @@ from functools import partial
 import numpy as np
 import torch
 import torchvision
-import json
 from torch.utils.data import Dataset
-from skimage.color import rgb2hsv
 
-from zephyr.data_util import loadData, to_np, vectorize, img2uint8
+from zephyr.data_util import to_np, vectorize, img2uint8
 from zephyr.utils import torch_norm_fast
-from zephyr.utils.mask_edge import mask2edge, get_gaussian_kernel, getRendEdgeScore
-from oriented_features.image_utils.edges import generate_distance_image
-from oriented_features.normals import compute_normals
+from zephyr.utils.mask_edge import getRendEdgeScore
+from zephyr.utils.edges import generate_distance_image
+from zephyr.normals import compute_normals
 from zephyr.utils.timer import TorchTimer
 
 try:
@@ -21,9 +19,6 @@ try:
 except ImportError:
     pass
 from zephyr.datasets.prep_dataset import PrepDataset
-
-# from bop_toolkit_lib.inout import load_im, load_depth, load_json
-# import imageio
 
 IMPORTANCE_ORDER = [
     28, 27, 32, 33, 36, 35, 29, 16, 26, 22, 13, 4, 26, 21, 22
