@@ -13,7 +13,7 @@ from zephyr.data_util import loadData, to_np, vectorize, img2uint8
 from zephyr.utils import torch_norm_fast
 from zephyr.utils.mask_edge import mask2edge, get_gaussian_kernel, getRendEdgeScore
 from oriented_features.image_utils.edges import generate_distance_image
-from zephyr.normals import compute_normals
+from oriented_features.normals import compute_normals
 from zephyr.utils.timer import TorchTimer
 
 try:

@@ -135,7 +135,7 @@ compute_normals(xt::pyarray<double>& py_depth,
     return py_normals;
 }
 
-PYBIND11_MODULE(oriented_features_c, m)
+PYBIND11_MODULE(zephyr_c, m)
 {
     xt::import_numpy();
     m.doc() = "Test module for xtensor python bindings";
