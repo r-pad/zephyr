@@ -16,8 +16,7 @@ conda activate zephyr
 ```
 # Required packages for compiling the C++ module
 sudo apt-get install build-essential cmake
-conda install -c conda-forge eigen pcl=1.9.1 xtensor xtensor-python pybind11
-conda install -c menpo opencv3
+conda install -c conda-forge eigen pcl=1.9.1 xtensor xtensor-python pybind11 opencv
 ```
 
 Compile the c++ library for python bindings in the conda virtual environment
