@@ -9,9 +9,9 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger as Logger
 from pytorch_lightning.callbacks import ModelCheckpoint
 
-from .models import getModel
-from .datasets import getDataloader
-from .options import getOptions, checkArgs
+from zephyr.models import getModel
+from zephyr.datasets import getDataloader
+from zephyr.options import getOptions, checkArgs
 
 def main(args):
     np.random.seed(0)
