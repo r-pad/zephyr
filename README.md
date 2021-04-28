@@ -45,8 +45,11 @@ cd .. # Change to the root folder of this project
 pip install -e .
 ```
 
+## Test the network
+
 ## Train the network
 
+Download pre-processed data from this Google Drive [link](). 
 The following commands need to be run in `python/zephyr/` folder. 
 
 ### Train on YCB-V dataset
@@ -85,7 +88,7 @@ This command will train the network on the synthetic images provided by [Blender
 ```
 python train.py \
     --model_name pn2 \
-    --dataset_root ./data/bop/lmo/grid_0.7m_train_pbr_match_data/ \
+    --dataset_root ./data/lmo/matches_data_train/ \
     --dataset_name lmo \
     --dataset HSVD_diff_uv_norm \
     --no_valid_proj --no_valid_depth \
@@ -93,5 +96,4 @@ python train.py \
     --exp_name final
 ```
 
-## Test the network
 
