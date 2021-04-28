@@ -49,7 +49,8 @@ pip install -e .
 
 ## Train the network
 
-Download pre-processed data from this Google Drive [link](). 
+Download pre-processed data from this Google Drive [link](https://drive.google.com/file/d/1BolVjGJGZIyJ1kW-8PQx2dTjWgWXfkmi/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
+
 The following commands need to be run in `python/zephyr/` folder. 
 
 ### Train on YCB-V dataset
