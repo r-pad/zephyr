@@ -1,4 +1,4 @@
-# zephyr_dev
+# ZePHyR: Zero-shot Pose Hypothesis Rating
 
 ## Get Started
 
@@ -13,6 +13,7 @@ conda activate zephyr
 
 ### Install dependencies and compile the C++ module
 
+`opencv-python-headless` is only needed to fix a [bug](https://github.com/opencv/opencv/issues/5150)
 ```
 # Required packages for compiling the C++ module
 sudo apt-get install build-essential cmake
@@ -20,10 +21,12 @@ sudo apt-get install build-essential cmake
 # Required packages for running the main package
 pip install plyfile
 conda install -y pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
-conda install -y -c conda-forge pytorch-lightning=0.7.6 addict opencv
+conda install -y -c conda-forge pytorch-lightning=0.7.6 
 conda install -y -c open3d-admin open3d
-conda install -y scipy scikit-learn scikit-image psutil pandas tensorboard
+conda install -y scipy scikit-learn scikit-image psutil pandas
 conda install -y -c conda-forge eigen pcl=1.9.1 xtensor xtensor-python pybind11
+conda install -y -c conda-forge tensorboard addict opencv
+conda install -c fastai opencv-python-headless
 ```
 
 Compile the c++ library for python bindings in the conda virtual environment
@@ -44,12 +47,13 @@ pip install -e .
 
 ## Train the network
 
+The following commands need to be run in `python/zephyr/` folder. 
+
 ### Train on YCB-V dataset
 
 These commands will train the network on the real-world images in the YCB-Video training set. 
 
 **On object Set 1 (objects with odd ID)**
-
 ```
 python train.py \
     --model_name pn2 \
@@ -61,21 +65,7 @@ python train.py \
     --exp_name final
 ```
 
-For debugging
-```
-CUDA_VISIBLE_DEVICES=1 python train.py \
-    --model_name pn2 \
-    --num_workers 1 \
-    --dataset_root ./data/matches_data_small/ \
-    --dataset_name ycbv \
-    --dataset HSVD_diff_uv_norm \
-    --no_valid_proj --no_valid_depth \
-    --loss_cutoff log \
-    --exp_name final
-```
-
 **On object Set 2 (objects with even ID)**
-
 ```
 python train.py \
     --model_name pn2 \
