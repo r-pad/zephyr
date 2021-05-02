@@ -12,9 +12,9 @@ def point2pointICP(src_pc, tgt_pc, mat_max, icp_max_dist):
     target = o3d.geometry.PointCloud()
     source.points = o3d.utility.Vector3dVector(src_pc)
     target.points = o3d.utility.Vector3dVector(tgt_pc)
-    reg_p2p = o3d.registration.registration_icp(
+    reg_p2p = o3d.pipelines.registration.registration_icp(
         source, target, icp_max_dist, mat_max,
-        o3d.registration.TransformationEstimationPointToPoint(),
+        o3d.pipelines.registration.TransformationEstimationPointToPoint(),
     )
     mat_refine = reg_p2p.transformation
     return mat_refine

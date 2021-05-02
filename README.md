@@ -1,5 +1,10 @@
 # ZePHyR: Zero-shot Pose Hypothesis Rating
 
+[ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. Its core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
+
+![ZePHyR pipeline animation](images/ZePHyR_Text_Small.gif)
+
+
 ## Get Started
 
 ### Set up environment
@@ -45,13 +50,59 @@ cd .. # Change to the root folder of this project
 pip install -e .
 ```
 
-## Test the network
-
-## Train the network
+## Download pre-processed dataset
 
 Download pre-processed data from this Google Drive [link](https://drive.google.com/file/d/1BolVjGJGZIyJ1kW-8PQx2dTjWgWXfkmi/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
 
 The following commands need to be run in `python/zephyr/` folder. 
+```
+cd python/zephyr/
+```
+
+## Test the network
+
+### Test on YCB-V dataset
+
+Test on the YCB-V dataset using the model trained on objects with odd ID
+```
+python test.py \
+    --model_name pn2 \
+    --dataset_root ./data/ycb/matches_data_test/ \
+    --dataset_name ycbv \
+    --dataset HSVD_diff_uv_norm \
+    --no_valid_proj --no_valid_depth \
+    --loss_cutoff log \
+    --exp_name final \
+    --resume_path ./ckpts/final_ycbv.ckpt
+```
+Test on the YCB-V dataset using the model trained on objects with even ID
+```
+python test.py \
+    --model_name pn2 \
+    --dataset_root ./data/ycb/matches_data_test/ \
+    --dataset_name ycbv \
+    --dataset HSVD_diff_uv_norm \
+    --no_valid_proj --no_valid_depth \
+    --loss_cutoff log \
+    --exp_name final \
+    --resume_path ./ckpts/final_ycbv_valodd.ckpt
+```
+
+### Test on LM-O dataset
+
+```
+python test.py \
+    --model_name pn2 \
+    --dataset_root ./data/lmo/matches_data_test/ \
+    --dataset_name lmo \
+    --dataset HSVD_diff_uv_norm \
+    --no_valid_proj --no_valid_depth \
+    --loss_cutoff log \
+    --exp_name final \
+    --resume_path ./ckpts/final_lmo.ckpt
+```
+
+## Train the network
 
 ### Train on YCB-V dataset
 
@@ -97,4 +148,18 @@ python train.py \
     --exp_name final
 ```
 
+# Cite
 
+If you find this codebase useful in your research, please consider citing:
+```
+@inproceedings{icra2021zephyr,
+    title={ZePHyR: Zero-shot Pose Hypothesis Rating},
+    author={Brian Okorn, Qiao Gu, Martial Hebert, David Held},
+    booktitle={2021 International Conference on Robotics and Automation (ICRA)},
+    year={2021}
+}
+```
+
+# Reference
+
+* We used the [PPF](http://campar.in.tum.de/pub/drost2010CVPR/drost2010CVPR.pdf) implementation provided in [MVTec HALCON](https://www.mvtec.com/products/halcon) software. It is a commercial software but provides [free license for student](https://www.mvtec.com/company/mvtec-on-campus/licenses/student). 
