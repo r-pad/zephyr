@@ -9,33 +9,18 @@
 
 ### Set up environment
 
-We recommend build the environment and install all required packages using [Anaconda](https://www.anaconda.com/products/individual)
-
+1. We recommend build the environment and install all required packages using [Anaconda](https://www.anaconda.com/products/individual). 
 ```
-conda create -n zephyr python=3.7.5
+conda env create -n zephyr --file zephyr_env.yml
 conda activate zephyr
 ```
 
-### Install dependencies and compile the C++ module
-
-`opencv-python-headless` is only needed to fix a [bug](https://github.com/opencv/opencv/issues/5150)
-```
-# Required packages for compiling the C++ module
+2. Required packages for compiling the C++ module
+'''
 sudo apt-get install build-essential cmake
+'''
 
-# Required packages for running the main package
-pip install plyfile
-conda install -y pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
-conda install -y -c conda-forge pytorch-lightning=0.7.6 
-conda install -y -c open3d-admin open3d
-conda install -y scipy scikit-learn scikit-image psutil pandas
-conda install -y -c conda-forge eigen pcl=1.9.1 xtensor xtensor-python pybind11
-conda install -y -c conda-forge tensorboard addict opencv
-conda install -c fastai opencv-python-headless
-```
-
-Compile the c++ library for python bindings in the conda virtual environment
-
+3. Compile the c++ library for python bindings in the conda virtual environment
 ```
 mkdir build
 cd build
@@ -43,8 +28,7 @@ cmake .. -DPYTHON_EXECUTABLE=/location/of/conda/env/bin/python3
 make; make install
 ```
 
-Install the current python package
-
+4. Install the current python package
 ```
 cd .. # Change to the root folder of this project
 pip install -e .
@@ -101,6 +85,8 @@ python test.py \
     --exp_name final \
     --resume_path ./ckpts/final_lmo.ckpt
 ```
+
+The testing results will be stored in `test_logs` and the results in BOP Challenge format will be in `test_logs/bop_results`. Please refer to [bop_toolkit](https://github.com/thodan/bop_toolkit) for converting the results to BOP Average Recall scores used in [BOP challenge](https://bop.felk.cvut.cz/home/). 
 
 ## Train the network
 

@@ -307,7 +307,7 @@ class BaseModel(LightningModule):
     def test_epoch_end(self, outputs):
         '''Save the results'''
         # input_file = self.args.exp_name + "_" + self.args.resume_path.split('/')[-1].split("-")[0] + "_%s.csv" % self.args.data_split
-        input_file = self.args.exp_name + "_" + "_%s.csv" % self.args.data_split
+        input_file = self.args.exp_name + "_%s.csv" % self.args.data_split
         save_path = os.path.join("test_logs", input_file)
 
         for d in ["test_logs", "test_logs/bop_results"]:
