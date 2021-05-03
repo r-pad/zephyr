@@ -2,6 +2,8 @@
 
 [ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. The core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
 
+[[ArXiv]](https://arxiv.org/abs/2104.13526) [[Project Page]](https://bokorn.github.io/zephyr/) [[Video]](https://www.youtube.com/watch?v=iYWXU6vXbq8) [[BibTex]](https://github.com/r-pad/zephyr_dev#cite)
+
 ![ZePHyR pipeline animation](images/ZePHyR_Text_Small.gif)
 
 
@@ -15,28 +17,29 @@ conda env create -n zephyr --file zephyr_env.yml
 conda activate zephyr
 ```
 
-2. Required packages for compiling the C++ module
-'''
+2. Install the required packages for compiling the C++ module
+
+```
 sudo apt-get install build-essential cmake
-'''
+```
 
 3. Compile the c++ library for python bindings in the conda virtual environment
 ```
 mkdir build
 cd build
-cmake .. -DPYTHON_EXECUTABLE=/location/of/conda/env/bin/python3
+cmake .. -DPYTHON_EXECUTABLE=/location/of/conda/env/zephyr/bin/python3
 make; make install
 ```
 
 4. Install the current python package
 ```
-cd .. # Change to the root folder of this project
+cd .. # move to the root folder of this repo
 pip install -e .
 ```
 
 ## Download pre-processed dataset
 
-Download pre-processed data from this Google Drive [link](https://drive.google.com/file/d/1muKKrVwxYgXF9mNm_Xkw1nym2RrEaigG/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
+Download pre-processed training and testing data from this Google Drive [link](https://drive.google.com/file/d/1muKKrVwxYgXF9mNm_Xkw1nym2RrEaigG/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
 
 The following commands need to be run in `python/zephyr/` folder. 
 ```
@@ -45,7 +48,7 @@ cd python/zephyr/
 
 ## Test the network
 
-Download the pretrained pytorch model checkpoint from this Google Drive [link](https://drive.google.com/file/d/1cBLzDq71peadG5zkJsdQXpJ45coF5HEW/view?usp=sharing) and unzip it in the `python/zephyr/ckpts/` folder. 
+Download the pretrained pytorch model checkpoint from this Google Drive [link](https://drive.google.com/file/d/1cBLzDq71peadG5zkJsdQXpJ45coF5HEW/view?usp=sharing) and unzip it in the `python/zephyr/ckpts/` folder.  We provide 3 checkpoints, two trained on YCB-V objects with odd ID (`final_ycbv.ckpt`) and even ID (`final_ycbv_valodd.ckpt`) respectively, and one trained on LM objects that are not in LM-O dataset (`final_lmo.ckpt`). 
 
 ### Test on YCB-V dataset
 
@@ -150,4 +153,4 @@ If you find this codebase useful in your research, please consider citing:
 
 # Reference
 
-* We used the [PPF](http://campar.in.tum.de/pub/drost2010CVPR/drost2010CVPR.pdf) implementation provided in [MVTec HALCON](https://www.mvtec.com/products/halcon) software. It is a commercial software but provides [free license for student](https://www.mvtec.com/company/mvtec-on-campus/licenses/student). 
+* We used the [PPF](http://campar.in.tum.de/pub/drost2010CVPR/drost2010CVPR.pdf) implementation provided in [MVTec HALCON](https://www.mvtec.com/products/halcon) software for pose hypothese generation. It is a commercial software but provides [free license for student](https://www.mvtec.com/company/mvtec-on-campus/licenses/student). 
