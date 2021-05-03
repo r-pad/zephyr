@@ -1,6 +1,6 @@
 # ZePHyR: Zero-shot Pose Hypothesis Rating
 
-[ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. Its core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
+[ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. The core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
 
 ![ZePHyR pipeline animation](images/ZePHyR_Text_Small.gif)
 
@@ -9,7 +9,7 @@
 
 ### Set up environment
 
-1. We recommend build the environment and install all required packages using [Anaconda](https://www.anaconda.com/products/individual). 
+1. We recommend building the environment and install all required packages using [Anaconda](https://www.anaconda.com/products/individual). 
 ```
 conda env create -n zephyr --file zephyr_env.yml
 conda activate zephyr
@@ -36,7 +36,7 @@ pip install -e .
 
 ## Download pre-processed dataset
 
-Download pre-processed data from this Google Drive [link](https://drive.google.com/file/d/1BolVjGJGZIyJ1kW-8PQx2dTjWgWXfkmi/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
+Download pre-processed data from this Google Drive [link](https://drive.google.com/file/d/1muKKrVwxYgXF9mNm_Xkw1nym2RrEaigG/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
 
 The following commands need to be run in `python/zephyr/` folder. 
 ```
@@ -44,6 +44,8 @@ cd python/zephyr/
 ```
 
 ## Test the network
+
+Download the pretrained pytorch model checkpoint from this Google Drive [link](https://drive.google.com/file/d/1cBLzDq71peadG5zkJsdQXpJ45coF5HEW/view?usp=sharing) and unzip it in the `python/zephyr/ckpts/` folder. 
 
 ### Test on YCB-V dataset
 
