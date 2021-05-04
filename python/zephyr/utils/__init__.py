@@ -26,6 +26,16 @@ def meta2K(meta_data):
 
     return cam_K
 
+def K2meta(cam_K):
+    meta_data = {
+        "camera_fx": cam_K[0,0],
+        "camera_fy": cam_K[1,1],
+        "camera_cx": cam_K[0,2],
+        "camera_cy": cam_K[1,2],
+        "camera_scale": 1.0
+    }
+    return meta_data
+
 def torch_norm_fast(tensor, axis):
     return torch.sqrt((tensor**2).sum(axis))
 
