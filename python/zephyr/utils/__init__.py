@@ -32,7 +32,7 @@ def K2meta(cam_K):
         "camera_fy": cam_K[1,1],
         "camera_cx": cam_K[0,2],
         "camera_cy": cam_K[1,2],
-        "camera_scale": 1.0
+        "camera_scale": 10000
     }
     return meta_data
 

@@ -46,6 +46,17 @@ The following commands need to be run in `python/zephyr/` folder.
 cd python/zephyr/
 ```
 
+### Example script to run the network
+
+To use the network, an example is provided in [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr_dev/blob/main/notebooks/TestExample.ipynb). In the example script, a datapoint is loaded from LM-O dataset provided by the [BOP Challenge](https://bop.felk.cvut.cz/datasets/). Despite the complex dataloading code, the following data of the observation and the model point clouds is needed to run the network: 
+* `img`: RGB image, np.ndarray of size (H, W, 3) in np.uint8
+* `depth`: depth map, np.ndarray of size (H, W) in np.float, in meters
+* `cam_K`: camera intrinsic matrix, np.ndarray of size (3, 3) in np.float
+* `model_colors`: colors of model point cloud, np.ndarray of size (N, 3) in float, scaled in [0, 1]
+* `model_points`: xyz coordinates of model point cloud, np.ndarray of size (N, 3) in float, in meters
+* `model_normals`: normal vectors of mdoel point cloud, np.ndarray of size (N, 3) in float, each L2 normalized
+* `pose_hypos`: pose hypotheses in camera frame, np.ndarray of size (K, 4, 4) in float
+
 ## Test the network
 
 Download the pretrained pytorch model checkpoint from this Google Drive [link](https://drive.google.com/file/d/1cBLzDq71peadG5zkJsdQXpJ45coF5HEW/view?usp=sharing) and unzip it in the `python/zephyr/ckpts/` folder.  We provide 3 checkpoints, two trained on YCB-V objects with odd ID (`final_ycbv.ckpt`) and even ID (`final_ycbv_valodd.ckpt`) respectively, and one trained on LM objects that are not in LM-O dataset (`final_lmo.ckpt`). 
@@ -154,3 +165,4 @@ If you find this codebase useful in your research, please consider citing:
 # Reference
 
 * We used the [PPF](http://campar.in.tum.de/pub/drost2010CVPR/drost2010CVPR.pdf) implementation provided in [MVTec HALCON](https://www.mvtec.com/products/halcon) software for pose hypothese generation. It is a commercial software but provides [free license for student](https://www.mvtec.com/company/mvtec-on-campus/licenses/student). 
+* We used [bop_toolkit](https://github.com/thodan/bop_toolkit) for data loading and results evaluation. 

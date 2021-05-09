@@ -28,8 +28,8 @@ def main(args):
     if args.dataset_name[0] == "lmo":
         print("args.inconst_ratio_th = 100")
         args.inconst_ratio_th = 100
+        args.ppf_only = True
         # args.dataset_root[0] = "/home/qiaog/datasets/bop/lmo/grid_0.7m_bop_test_drost100_match_data/"
-        # args.ppf_only = True
         # args.n_ppf_hypos = 100
     if args.model_name == "pn":
         args.chunk_size = 1101
