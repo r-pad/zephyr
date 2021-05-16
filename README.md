@@ -39,7 +39,7 @@ pip install -e .
 
 ## Download pre-processed dataset
 
-Download pre-processed training and testing data from this Google Drive [link](https://drive.google.com/file/d/1muKKrVwxYgXF9mNm_Xkw1nym2RrEaigG/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage. 
+Download pre-processed training and testing data (`ycbv_preprocessed.zip`, `lmo_preprocessed.zip` and `ppf_hypos.zip`) from this Google Drive [link](https://drive.google.com/drive/folders/1Fq-24RAnn0uWAEVauwMZgpqtWYkZCqQI?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage in total. 
 
 The following commands need to be run in `python/zephyr/` folder. 
 ```
@@ -48,7 +48,7 @@ cd python/zephyr/
 
 ### Example script to run the network
 
-To use the network, an example is provided in [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr_dev/blob/main/notebooks/TestExample.ipynb). In the example script, a datapoint is loaded from LM-O dataset provided by the [BOP Challenge](https://bop.felk.cvut.cz/datasets/). Despite the complex dataloading code, the following data of the observation and the model point clouds is needed to run the network: 
+To use the network, an example is provided in [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr_dev/blob/main/notebooks/TestExample.ipynb). In the example script, a datapoint is loaded from LM-O dataset provided by the [BOP Challenge](https://bop.felk.cvut.cz/datasets/). The pose hypotheses is provided by PPF algorithm (extracted from `ppf_hypos.zip`). Despite the complex dataloading code, only the following data of the observation and the model point clouds is needed to run the network: 
 * `img`: RGB image, np.ndarray of size (H, W, 3) in np.uint8
 * `depth`: depth map, np.ndarray of size (H, W) in np.float, in meters
 * `cam_K`: camera intrinsic matrix, np.ndarray of size (3, 3) in np.float

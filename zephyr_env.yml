@@ -24,7 +24,7 @@ dependencies:
   - brotlipy=0.7.0=py37h5e8e339_1001
   - bzip2=1.0.8=h516909a_3
   - c-ares=1.17.1=h36c2ea0_0
-  - ca-certificates=2021.4.13=h06a4308_1
+  - ca-certificates=2020.12.5=ha878542_0
   - cachetools=4.2.1=pyhd8ed1ab_0
   - cairo=1.16.0=h6cf1ce9_1008
   - certifi=2020.12.5=py37h89c1867_1
@@ -175,6 +175,7 @@ dependencies:
   - pyjwt=2.0.1=pyhd8ed1ab_1
   - pyopenssl=20.0.1=pyhd8ed1ab_0
   - pyparsing=2.4.7=pyhd3eb1b0_0
+  - pypng=0.0.20=py_0
   - pyrsistent=0.17.3=py37h7b6447c_0
   - pysocks=1.7.1=py37h89c1867_3
   - python=3.7.5=hffdb5ce_0_cpython
@@ -211,6 +212,7 @@ dependencies:
   - tornado=6.1=py37h27cfd23_0
   - tqdm=4.60.0=pyhd8ed1ab_0
   - traitlets=5.0.5=pyhd3eb1b0_0
+  - trimesh=3.9.15=pyh44b312d_0
   - typing-extensions=3.7.4.3=0
   - typing_extensions=3.7.4.3=py_0
   - urllib3=1.26.4=pyhd8ed1ab_0
@@ -242,7 +244,11 @@ dependencies:
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.9=haebb681_0
   - pip:
+    - freetype-py==2.2.0
     - numpy==1.20.2
     - plyfile==0.7.3
     - pybind11-global==2.6.1
+    - pyglet==1.5.16
+    - pyopengl==3.1.0
+    - pyrender==0.1.45
 prefix: /home/qiaog/anaconda3/envs/zephyr
