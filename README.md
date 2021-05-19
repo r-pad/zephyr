@@ -9,6 +9,11 @@
 
 ## Get Started
 
+First, checkout this repo by
+```
+git clone --recurse-submodules git@github.com:r-pad/zephyr_dev.git
+```
+
 ### Set up environment
 
 1. We recommend building the environment and install all required packages using [Anaconda](https://www.anaconda.com/products/individual). 
