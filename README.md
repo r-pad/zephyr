@@ -11,7 +11,7 @@
 
 First, checkout this repo by
 ```
-git clone --recurse-submodules git@github.com:r-pad/zephyr_dev.git
+git clone --recurse-submodules git@github.com:r-pad/zephyr.git
 ```
 
 ### Set up environment
