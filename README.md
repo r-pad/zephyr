@@ -2,7 +2,7 @@
 
 [ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. The core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
 
-[[ArXiv]](https://arxiv.org/abs/2104.13526) [[Project Page]](https://bokorn.github.io/zephyr/) [[Video]](https://www.youtube.com/watch?v=iYWXU6vXbq8) [[BibTex]](https://github.com/r-pad/zephyr_dev#cite)
+[[ArXiv]](https://arxiv.org/abs/2104.13526) [[Project Page]](https://bokorn.github.io/zephyr/) [[Video]](https://www.youtube.com/watch?v=iYWXU6vXbq8) [[BibTex]](https://github.com/r-pad/zephyr#cite)
 
 ![ZePHyR pipeline animation](images/ZePHyR_Text_Small.gif)
 
@@ -53,7 +53,7 @@ cd python/zephyr/
 
 ### Example script to run the network
 
-To use the network, an example is provided in [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr_dev/blob/main/notebooks/TestExample.ipynb). In the example script, a datapoint is loaded from LM-O dataset provided by the [BOP Challenge](https://bop.felk.cvut.cz/datasets/). The pose hypotheses is provided by PPF algorithm (extracted from `ppf_hypos.zip`). Despite the complex dataloading code, only the following data of the observation and the model point clouds is needed to run the network: 
+To use the network, an example is provided in [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr/blob/main/notebooks/TestExample.ipynb). In the example script, a datapoint is loaded from LM-O dataset provided by the [BOP Challenge](https://bop.felk.cvut.cz/datasets/). The pose hypotheses is provided by PPF algorithm (extracted from `ppf_hypos.zip`). Despite the complex dataloading code, only the following data of the observation and the model point clouds is needed to run the network: 
 * `img`: RGB image, np.ndarray of size (H, W, 3) in np.uint8
 * `depth`: depth map, np.ndarray of size (H, W) in np.float, in meters
 * `cam_K`: camera intrinsic matrix, np.ndarray of size (3, 3) in np.float
@@ -61,6 +61,14 @@ To use the network, an example is provided in [notebooks/TestExample.ipynb](http
 * `model_points`: xyz coordinates of model point cloud, np.ndarray of size (N, 3) in float, in meters
 * `model_normals`: normal vectors of mdoel point cloud, np.ndarray of size (N, 3) in float, each L2 normalized
 * `pose_hypos`: pose hypotheses in camera frame, np.ndarray of size (K, 4, 4) in float
+
+### Run PPF algorithm using HALCON software
+
+The PPF algorithm we used is the [surface matching function](https://www.mvtec.com/doc/halcon/13/en/find_surface_model.html) implmemented in [MVTec HALCON](https://www.mvtec.com/products/halcon/?pk_campaign=EN-Halcon&pk_medium=cpc&pk_kwd=) software. HALCON provides a [Python interface](https://pypi.org/project/mvtec-halcon/) for programmers together with its newest versions. I wrote a simple wrapper which calls `create_surface_model()` and `find_surface_model()` to get the pose hypotheses. See [notebooks/TestExample.ipynb](https://github.com/r-pad/zephyr/blob/main/notebooks/TestExample.ipynb) for how to use it. 
+
+The wrapper requires the HALCON 21.05 to be installed, which is a commercial software but it provides [free licenses for students](https://www.mvtec.com/company/mvtec-on-campus/licenses/student). 
+
+If you don't have access to HALCON, sets of pre-estimated pose hypotheses are provided in the pre-processed dataset. 
 
 ## Test the network
 

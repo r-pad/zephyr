@@ -1,4 +1,5 @@
 tb_logs
 lightning_logs
 test_logs
-ckpts/*
+ckpts
+data
