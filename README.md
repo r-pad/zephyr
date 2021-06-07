@@ -25,14 +25,14 @@ conda activate zephyr
 2. Install the required packages for compiling the C++ module
 
 ```
-sudo apt-get install build-essential cmake
+sudo apt-get install build-essential cmake libopencv-dev python-numpy
 ```
 
 3. Compile the c++ library for python bindings in the conda virtual environment
 ```
 mkdir build
 cd build
-cmake .. -DPYTHON_EXECUTABLE=/location/of/conda/env/zephyr/bin/python3
+cmake .. -DPYTHON_EXECUTABLE=$(python -c "import sys; print(sys.executable)") -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  -DPYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))")
 make; make install
 ```
 
