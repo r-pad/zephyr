@@ -76,7 +76,7 @@ class PPFModel():
         )
         t2 = time.time()
         
-        poses_raw = np.asarray(Pose).reshape((NumResult, 7))
+        poses_raw = np.asarray(Pose).reshape((-1, 7))
 
         poses_rot = R.from_euler("XYZ", poses_raw[:, 3:6], degrees=True)
         poses_rotmat = poses_rot.as_matrix()
@@ -89,3 +89,37 @@ class PPFModel():
         time_ppf = t2 - t1
 
         return poses_ppf, scores_ppf, time_ppf
+
+def computeNormal(xyz):
+    '''
+    Note: this function is not complete
+    extracting numbers from Halcon 3D object model using get_object_model_3d_params() is somehow super slow
+    '''
+    # Extract the X Y Z components of the xyz map
+    x = np.ascontiguousarray(xyz[:, :, 0]).reshape(-1).astype(np.float32)
+    y = np.ascontiguousarray(xyz[:, :, 1]).reshape(-1).astype(np.float32)
+    z = np.ascontiguousarray(xyz[:, :, 2]).reshape(-1).astype(np.float32)
+
+    # Convert the XYZ image to the Halcom data type
+    XImage = ha.gen_image1("real", 640, 480, x.ctypes.data)
+    YImage = ha.gen_image1("real", 640, 480, y.ctypes.data)
+    ZImage = ha.gen_image1("real", 640, 480, z.ctypes.data)
+
+    # Create the 3D object model
+    # This takes around 140 miliseconds
+    Scene3DModel = ha.xyz_to_object_model_3d(XImage, YImage, ZImage)
+
+    # Compute the normal on the point cloud
+    Scene3DModel = ha.surface_normals_object_model_3d(Scene3DModel, 'mls', [], [])
+
+    # Extract the data (computed normals) from the Halcon object model
+    # This step is super slow and takes 3 seconds for one image
+    scene_model = ha.get_object_model_3d_params(
+        Scene3DModel, 
+        [
+            'mapping_row', 'mapping_col' , 'point_coord_x', 'point_coord_y', 'point_coord_z', 
+            'point_normal_x', 'point_normal_y', 'point_normal_z'
+        ]
+    )
+
+    raise NotImplementedError
