@@ -2,7 +2,7 @@
 
 [ZePHyR](https://bokorn.github.io/zephyr/) is a zero-shot 6D object pose estimation pipeline. The core is a learned scoring function that compares the sensor observation to a sparse object rendering of each candidate pose hypothesis. We used PointNet++ as the network structure and trained and tested on YCB-V and LM-O dataset. 
 
-[[ArXiv]](https://arxiv.org/abs/2104.13526) [[Project Page]](https://bokorn.github.io/zephyr/) [[Video]](https://www.youtube.com/watch?v=iYWXU6vXbq8) [[BibTex]](https://github.com/r-pad/zephyr#cite)
+[[ArXiv]](https://arxiv.org/abs/2104.13526) [[Project Page]](https://bokorn.github.io/zephyr/) [[Video]](https://www.youtube.com/watch?v=41bxU7U2VZ4) [[BibTex]](https://github.com/r-pad/zephyr#cite)
 
 ![ZePHyR pipeline animation](images/ZePHyR_Text_Small.gif)
 
