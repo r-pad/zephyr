@@ -122,4 +122,12 @@ def computeNormal(xyz):
         ]
     )
 
+    # # On the other hand, setting the normal vectors takes ~0.8 seconds
+    # Scene3DModel = ha.set_object_model_3d_attrib(
+    #     Scene3DModel, 
+    #     ['point_normal_x', 'point_normal_y', 'point_normal_z'],
+    #     [],
+    #     x.tolist() + y.tolist() + z.tolist()
+    # )
+
     raise NotImplementedError

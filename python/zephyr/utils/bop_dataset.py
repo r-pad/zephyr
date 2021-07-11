@@ -4,6 +4,7 @@ import imageio
 import os, sys
 import json
 import glob
+import warnings
 from scipy.spatial.transform import Rotation as R
 
 from dataclasses import dataclass
@@ -103,7 +104,9 @@ class BopDataset():
             if scene_obj_gt['obj_id'] == obj_id:
                 break
             if gt_id == len(scene_gt)-1:
-                raise Exception("Incorrect ground truth")
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
 
         visib_fract = scene_gt_info[gt_id]['visib_fract']
 
@@ -122,7 +125,9 @@ class BopDataset():
             if scene_obj_gt['obj_id'] == obj_id:
                 break
             if gt_id == len(scene_gt)-1:
-                raise Exception("Incorrect ground truth")
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
             
         visib_fract = scene_gt_info[gt_id]['visib_fract']
 

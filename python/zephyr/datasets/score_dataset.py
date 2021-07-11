@@ -606,12 +606,6 @@ class ScoreDataset(Dataset):
             to_return['agg_x'], to_return['pp_err'], to_return['transforms'] = self.agg_cache[idx]
             return to_return
 
-        # data = loadData(*dp, feature_size = self.feature_size, base_path = self.dataset_root)
-
-        # '''Get the model data and send it into the processing function'''
-        # model_data = self.getModelData(dp[0])
-        # data.update(model_data)
-
         data = self.loader.loadData(*dp)
 
         assert len(data['pp_err']) == 101 or len(data['pp_err']) == 1101 or len(data['pp_err']) == 301

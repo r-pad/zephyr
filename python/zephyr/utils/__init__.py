@@ -5,6 +5,9 @@ import torch
 
 
 def to_np(x):
+    if type(x) is np.ndarray:
+        return x
+        
     if torch.is_tensor(x):
         return x.detach().cpu().numpy()
     else:

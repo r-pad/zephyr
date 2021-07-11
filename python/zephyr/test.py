@@ -43,7 +43,13 @@ def main(args):
 
     print("############ BOP test set: %d ##############" % len(boptest_loader))
     args.data_split = args.dataset_name[0] + "-boptest"
+    ckpt = torch.load(args.resume_path)
+
+    args.resume_path = None # for later version of pytorch lightning
+    
     model = getModel(args.model_name, args, mode='test')
+    model.load_state_dict(ckpt['state_dict'])
+
     trainer = Trainer(
         gpus=args.n_gpus, distributed_backend='dp',
         checkpoint_callback=False
