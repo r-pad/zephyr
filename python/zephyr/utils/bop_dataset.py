@@ -67,7 +67,7 @@ class BopDataset():
         self.targets = getTargets(self.dataset_root, self.split_name, self.split_dir_name, skip=args.skip)
 
         # Load PPF results
-        if args.ppf_results_file is None:
+        if not hasattr(args, "ppf_results_file")  or args.ppf_results_file is None:
             self.ppf_results_file = os.path.join(ppf_resuls_root, "%s_list_%s.txt" % (self.dataset_name, self.split_name))
         else:
             self.ppf_results_file = args.ppf_results_file
