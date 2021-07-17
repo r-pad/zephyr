@@ -80,7 +80,7 @@ class PPFModel():
 
         poses_rot = R.from_euler("XYZ", poses_raw[:, 3:6], degrees=True)
         poses_rotmat = poses_rot.as_matrix()
-        poses_ppf = np.zeros((NumResult, 4, 4))
+        poses_ppf = np.zeros((len(poses_raw), 4, 4))
         poses_ppf[:, :3, :3] = poses_rotmat
         poses_ppf[:, :3, 3] = poses_raw[:, :3]
         poses_ppf[:, 3, 3] = 1
