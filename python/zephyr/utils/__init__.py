@@ -87,3 +87,17 @@ def projectPointsUv(transforms, model_points, meta_data):
         proj_pts = trans_pts[:,:,:2]/trans_pts[:,:,2:]*f_cam + c_cam
         uv = proj_pts.round().astype(int)
     return uv
+
+
+def getClosestTrans(transforms, mat_gt):
+    quats = np.stack([quaternion_from_matrix(T) for T in transforms])
+    trans = np.stack([T[:3,3] for T in transforms])
+    gt_quats = quaternion_from_matrix(mat_gt)
+    gt_trans = mat_gt[:3,3]
+
+    q_diff = quatAngularDiffDot(quats, gt_quats)
+    t_diff = np.linalg.norm(trans - gt_trans, axis=-1)
+
+    t_dists = q_diff + t_diff
+    min_idx = np.argmin(q_diff + t_diff)
+    return min_idx
