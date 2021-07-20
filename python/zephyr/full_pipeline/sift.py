@@ -29,8 +29,12 @@ class Sift(object):
                 step_size=self.step_size, mask=mask)
         else:
             if isinstance(keypoints, np.ndarray):
-                keypoints = [cv2.KeyPoint(x=kp[1], y=kp[0], \
-                    _size=self.feature_size) for kp in keypoints]
+                try:
+                    keypoints = [cv2.KeyPoint(x=kp[1], y=kp[0], \
+                        _size=self.feature_size) for kp in keypoints]
+                except:
+                    keypoints = [cv2.KeyPoint(x=kp[1], y=kp[0], \
+                        size=self.feature_size) for kp in keypoints]
             if(compute_orientations):
                 keypoints, _ = computeHOGKeypoints(img, self.feature_size,
                     keypoints)

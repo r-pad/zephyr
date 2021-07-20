@@ -101,3 +101,8 @@ def getClosestTrans(transforms, mat_gt):
     t_dists = q_diff + t_diff
     min_idx = np.argmin(q_diff + t_diff)
     return min_idx
+
+def dict_to(dictionary, device):
+    for k,v in dictionary.items():
+        if(type(v) is torch.Tensor):
+            dictionary[k]=v.to(device)

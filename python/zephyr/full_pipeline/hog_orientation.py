@@ -96,8 +96,8 @@ def computeHOGPeaks(img, cell_size,
             if(mask is not None and not mask[y,x]):
                 continue
             for th in np.nonzero(quad_peak[u,v])[0]:
-                dense_kps.append(cv2.KeyPoint(x = x, y = y, _size = cell_size[0],
-                                              _angle = interp_angle[u,v,th]))
+                dense_kps.append(cv2.KeyPoint(x = float(x), y = float(y), size = cell_size[0],
+                                              angle = interp_angle[u,v,th]))
 
     return dense_kps
 
@@ -163,14 +163,14 @@ def computeHOGKeypoints(img, cell_size,
             kp_indices.append(j)
             hog_kps.append(cv2.KeyPoint(x = x,
                                         y = y,
-                                        _size = cell_size[0],
-                                        _angle = interp_angle[u,v,th]))
+                                        size = cell_size[0],
+                                        angle = interp_angle[u,v,th]))
 
     return hog_kps, kp_indices
 
 def deepcopy_keypoint (kp):
     return cv2.KeyPoint(x = kp.pt[0], y = kp.pt[1],
-                        _size = kp.size, _angle = kp.angle,
+                        size = kp.size, angle = kp.angle,
                         _response = kp.response, _octave = kp.octave,
                         _class_id = kp.class_id)
 
