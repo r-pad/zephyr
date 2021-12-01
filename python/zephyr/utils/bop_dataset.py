@@ -116,6 +116,26 @@ class BopDataset():
 
         return data
 
+    def getMaskByIds(self, obj_id, scene_id, im_id):
+        scene_gt_info = load_json(self.split_params['scene_gt_info_tpath'].format(scene_id=scene_id))[str(im_id)]
+        scene_camera = load_json(self.split_params['scene_camera_tpath'].format(scene_id=scene_id))[str(im_id)]
+        scene_gt = load_json(self.split_params['scene_gt_tpath'].format(scene_id=scene_id))[str(im_id)]
+
+        for gt_id, scene_obj_gt in enumerate(scene_gt):
+            if scene_obj_gt['obj_id'] == obj_id:
+                break
+            if gt_id == len(scene_gt)-1:
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
+            
+        mask_gt_visib = imageio.imread(self.split_params['mask_visib_tpath'].format(scene_id=scene_id, im_id=im_id, gt_id=gt_id))
+
+        data = {
+            "mask_gt_visib": np.asarray(mask_gt_visib),
+        }
+        return data
+
     def getDataByIds(self, obj_id, scene_id, im_id):
         scene_gt_info = load_json(self.split_params['scene_gt_info_tpath'].format(scene_id=scene_id))[str(im_id)]
         scene_camera = load_json(self.split_params['scene_camera_tpath'].format(scene_id=scene_id))[str(im_id)]
