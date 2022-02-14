@@ -70,5 +70,5 @@ class AddErrorMetric():
         errs = list(errs)
         obj_ids = list(obj_ids)
         assert len(errs) == len(obj_ids)
-        err_thresholds = self.threshold * torch.tensor([self.obj_diam[i] for i in obj_ids])
+        err_thresholds = self.threshold * torch.tensor([self.obj_diam[i.item()] for i in obj_ids])
         return (torch.tensor(errs) <= err_thresholds).float().sum() / len(errs)
