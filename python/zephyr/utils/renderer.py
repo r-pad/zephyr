@@ -1,4 +1,8 @@
 import os
+
+import sys
+sys.path.insert(0, "/home/qiaog/src/pyfqmr-Fast-Quadric-Mesh-Reduction")
+
 import cv2
 
 import math
@@ -20,9 +24,17 @@ class Renderer():
 
         self.obj_nodes = {}
 
-    def addObject(self, obj_id, obj_filename, pose = np.eye(4), mm2m = False):
+    def addObject(self, obj_id, obj_filename, pose = np.eye(4), mm2m = False, simplify=False):
         assert obj_id not in self.obj_nodes
         obj_trimesh = trimesh.load(obj_filename)
+
+        # if simplify:
+        #     from pySimplify import pySimplify
+        #     simplify = pySimplify()
+        #     simplify.setMesh(obj_trimesh)
+        #     simplify.simplify_mesh(target_count = 1024, aggressiveness=7, preserve_border=True, verbose=10)
+        #     obj_trimesh = simplify.getMesh()
+
         if mm2m:
             obj_trimesh.units = 'mm'
             obj_trimesh.convert_units('m')
@@ -31,11 +43,15 @@ class Renderer():
 
         self.obj_nodes[obj_id] = obj_node
     
-    def render(self, w=640, h=480):
+    def render(self, w=640, h=480, depth_only=False):
         renderer = pyrender.OffscreenRenderer(viewport_width=w,
                                                 viewport_height=h,
                                                 point_size=1.0)
-        rend_color, rend_depth = renderer.render(self.scene)
+        if depth_only:
+            rend_depth = renderer.render(self.scene, pyrender.RenderFlags.DEPTH_ONLY)
+            rend_color = None
+        else:
+            rend_color, rend_depth = renderer.render(self.scene)
         return rend_color, rend_depth
     
 def increase_brightness(img, value=30):

@@ -172,19 +172,6 @@ class BaseModel(LightningModule):
         loss = self.criterion(pred_y, pp_err)
         loss += self.getRegLoss()
 
-        # # Invalidate the SIFT hypotheses
-        # if self.args.sift_only:
-        #     pred_y[:self.args.n_ppf_hypos] = pred_y.min()
-        #     pred_y[-1:] = pred_y.min()
-        #
-        # # Invalidate the PPF hypotheses
-        # if self.args.ppf_only:
-        #     pred_y[self.args.n_ppf_hypos : -1] = pred_y.min()
-
-        # # Invalidate the hypotheses that does not meet the mask test
-        # if hypo_mask.sum() > 0 and self.args.use_mask_test:
-        #     pred_y[~hypo_mask] = pred_y.min() - 1
-
         # Purly based on order
         if self.args.no_model:
             pred_y = - torch.arange(len(pred_y), dtype=pred_y.dtype, device=pred_y.device)

@@ -4,6 +4,7 @@ import imageio
 import os, sys
 import json
 import glob
+import warnings
 from scipy.spatial.transform import Rotation as R
 
 from dataclasses import dataclass
@@ -66,7 +67,7 @@ class BopDataset():
         self.targets = getTargets(self.dataset_root, self.split_name, self.split_dir_name, skip=args.skip)
 
         # Load PPF results
-        if args.ppf_results_file is None:
+        if not hasattr(args, "ppf_results_file")  or args.ppf_results_file is None:
             self.ppf_results_file = os.path.join(ppf_resuls_root, "%s_list_%s.txt" % (self.dataset_name, self.split_name))
         else:
             self.ppf_results_file = args.ppf_results_file
@@ -103,7 +104,9 @@ class BopDataset():
             if scene_obj_gt['obj_id'] == obj_id:
                 break
             if gt_id == len(scene_gt)-1:
-                raise Exception("Incorrect ground truth")
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
 
         visib_fract = scene_gt_info[gt_id]['visib_fract']
 
@@ -111,6 +114,26 @@ class BopDataset():
             "visib_fract": visib_fract
         }
 
+        return data
+
+    def getMaskByIds(self, obj_id, scene_id, im_id):
+        scene_gt_info = load_json(self.split_params['scene_gt_info_tpath'].format(scene_id=scene_id))[str(im_id)]
+        scene_camera = load_json(self.split_params['scene_camera_tpath'].format(scene_id=scene_id))[str(im_id)]
+        scene_gt = load_json(self.split_params['scene_gt_tpath'].format(scene_id=scene_id))[str(im_id)]
+
+        for gt_id, scene_obj_gt in enumerate(scene_gt):
+            if scene_obj_gt['obj_id'] == obj_id:
+                break
+            if gt_id == len(scene_gt)-1:
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
+            
+        mask_gt_visib = imageio.imread(self.split_params['mask_visib_tpath'].format(scene_id=scene_id, im_id=im_id, gt_id=gt_id))
+
+        data = {
+            "mask_gt_visib": np.asarray(mask_gt_visib),
+        }
         return data
 
     def getDataByIds(self, obj_id, scene_id, im_id):
@@ -122,7 +145,9 @@ class BopDataset():
             if scene_obj_gt['obj_id'] == obj_id:
                 break
             if gt_id == len(scene_gt)-1:
-                raise Exception("Incorrect ground truth")
+                # raise Exception("Incorrect ground truth")
+                warnings.warn("Try to get GT not in BOP dataset! Returning a random GT pose!")
+                gt_id = 0
             
         visib_fract = scene_gt_info[gt_id]['visib_fract']
 

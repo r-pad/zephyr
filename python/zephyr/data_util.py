@@ -357,155 +357,39 @@ def modelShiftBopYcbv(mat, object_id, inverse=False):
     R = mat[:3, :3]
     t = mat[:3, 3]
     if inverse:
-        mat[:3, 3] = t*1000 + R.dot(shift).flatten() # From milimeter to meter
+        mat[:3, 3] = t*1000 + R.dot(shift).flatten() # From meter to milimeter
     else:
-        mat[:3, 3] = t*1000 - R.dot(shift).flatten() # From milimeter to meter
+        mat[:3, 3] = t*1000 - R.dot(shift).flatten() # From meter to milimeter
     return mat
 
-''' Backup '''
-# def vectorize(x, use_hsv=True, feature_inliers=True, norm_cos_weight=False, fs_thresh=0.02):
-#     p_mask = x['valid_proj']
-#     d_valid = x['valid_depth']
-#
-#     if norm_cos_weight:
-#         p_mask = p_mask * x['norm_cos']
-#
-#     d_mask = (p_mask * d_valid)
-#
-#     depth_err = x['depth_err'] ##
-#     depth_err_distance = (depth_err * d_mask)
-#     close_mask = (torch.abs(depth_err) <  fs_thresh) * d_mask
-#     close_distance = depth_err * close_mask
-#
-#     freespace_error = (depth_err - fs_thresh).clamp(min=0) ##
-#     freespace_distance = (freespace_error * d_mask)
-#     freespace_mask = (freespace_error > 0) * d_mask
-#
-#     occlusion_error = (depth_err + fs_thresh).clamp(max=0) ##
-#     occlusion_distance = (occlusion_error * d_mask)
-#     occlusion_mask = (occlusion_error < 0) * d_mask
-#
-#     color_err = x['color_err'] ##
-#     color_err_distance = (color_err*p_mask)
-#
-#     color_cos = x['color_cos'] ##
-#     color_cos_distance = (color_cos*p_mask)
-#
-#     color_err = x['color_err'] ##
-#     color_err_distance_dmask = (color_err*close_mask)
-#
-#     color_cos = x['color_cos'] ##
-#     color_cos_distance_dmask = (color_cos*close_mask)
-#
-#     p_count = p_mask.float().sum(-1).clamp(min=1e-9)
-#     d_count = d_mask.float().sum(-1).clamp(min=1e-9)
-#     close_count = close_mask.float().sum(-1).clamp(min=1e-9)
-#
-#     edge_scores = x['edge_scores']
-#     edge_scores_d = x['edge_scores_d']
-#
-#     score_vec = torch.stack([p_count,
-#                              d_count,
-#                              close_count,
-#                              depth_err_distance.float().sum(-1),
-#                              close_distance.float().sum(-1),
-#                              freespace_distance.float().sum(-1),
-#                              freespace_mask.float().sum(-1),
-#                              occlusion_distance.float().sum(-1),
-#                              occlusion_mask.float().sum(-1),
-#                              color_err_distance.float().sum(-1),
-#                              color_cos_distance.float().sum(-1),
-#                              color_err_distance_dmask.float().sum(-1),
-#                              color_cos_distance_dmask.float().sum(-1),
-#                              p_mask.float().mean(-1),
-#                              d_mask.float().mean(-1),
-#                              close_mask.float().mean(-1),
-#                              close_count/d_count,
-#                              depth_err_distance.float().sum(-1)/d_count,
-#                              close_distance.float().sum(-1)/d_count,
-#                              freespace_distance.float().sum(-1)/d_count,
-#                              freespace_mask.float().sum(-1)/d_count,
-#                              occlusion_distance.float().sum(-1)/d_count,
-#                              occlusion_mask.float().sum(-1)/d_count,
-#                              color_err_distance.float().sum(-1)/p_count,
-#                              color_cos_distance.float().sum(-1)/p_count,
-#                              color_err_distance_dmask.float().sum(-1)/close_count,
-#                              color_cos_distance_dmask.float().sum(-1)/close_count,
-#                              edge_scores.float(),
-#                              edge_scores_d.float()
-#                             ], axis=-1)
-#
-#     if use_hsv:
-#         h_err = (x['h_err'].float() * close_mask).sum(-1) / close_count
-#         s_err = (x['s_err'].float() * close_mask).sum(-1) / close_count
-#         v_err = (x['v_err'].float() * close_mask).sum(-1) / close_count
-#
-#         score_vec = torch.cat([
-#             score_vec,
-#             h_err.unsqueeze(-1).float(),
-#             s_err.unsqueeze(-1).float(),
-#             v_err.unsqueeze(-1).float(),
-#         ], axis=-1)
-#
-#     '''For feature inliers'''
-#     if feature_inliers:
-#         inlier_th = 0.02
-#         if ("inlier_feature_dists" not in x) and ("obs_feature_match_count" not in x):
-#             assert "corre_dists" in x
-#             unique_corre = x['unique_corre']
-#             unique_feat_dist = x['unique_feat_dist']
-#             corre_dists = x['corre_dists']
-#             N = corre_dists.shape[0]
-#
-#             # Compute the Euclidean and feature distances for the projected feature inliers
-#             corre_inlier_mask = corre_dists < inlier_th
-#             inlier_feature_dists = []
-#             inlier_euclidean_dists = []
-#             inlier_idxs = []
-#             for i in range(N):
-#                 inlier_feature_dists.append(unique_feat_dist[corre_inlier_mask[i]])
-#                 inlier_euclidean_dists.append(corre_dists[i, corre_inlier_mask[i]])
-#                 inlier_idxs.append(unique_corre[:, corre_inlier_mask[i]])
-#
-#             x['inlier_feature_dists'] = inlier_feature_dists
-#             x['inlier_euclidean_dists'] = inlier_euclidean_dists
-#             x['inlier_idxs'] = inlier_idxs
-#
-#         if 'obs_feature_match_count' not in x:
-#             inlier_feature_dists = x['inlier_feature_dists']
-#             inlier_euclidean_dists = x['inlier_euclidean_dists']
-#             inlier_idxs = x['inlier_idxs']
-#
-#             inlier_count = torch.tensor([len(_) for _ in inlier_feature_dists], device=color_err.device).float()
-#             obs_feature_match_count = torch.tensor([len(np.unique(_[0])) for _ in inlier_idxs], device=color_err.device).float()
-#             obs_feature_match_ratio = obs_feature_match_count / obs_feature_match_count.max() # We didn't record the number of obs features
-#             inlier_feature_dist_sum = torch.tensor([sum(_) for _ in inlier_feature_dists], device=color_err.device).float()
-#             inlier_feature_dist_mean = inlier_feature_dist_sum / inlier_count
-#             inlier_euclidean_dist_sum = torch.tensor([sum(_) for _ in inlier_euclidean_dists], device=color_err.device).float()
-#             inlier_euclidean_dist_mean = inlier_euclidean_dist_sum / inlier_count
-#         else:
-#             inlier_count = x['inlier_count'].float()
-#             obs_feature_match_count = x['obs_feature_match_count'].float()
-#             # obs_feature_match_ratio = x['obs_feature_match_ratio'].float()
-#             proj_area = x['proj_area'].float().squeeze()
-#             obs_feature_match_ratio = obs_feature_match_count / (proj_area + 1)
-#             inlier_feature_dist_sum = x['inlier_feature_dist_sum'].float()
-#             inlier_feature_dist_mean = x['inlier_feature_dist_mean'].float()
-#             inlier_euclidean_dist_sum = x['inlier_euclidean_dist_sum'].float()
-#             inlier_euclidean_dist_mean = x['inlier_euclidean_dist_mean'].float()
-#
-#         score_vec = torch.cat([
-#             score_vec,
-#             inlier_count.unsqueeze(-1),
-#             obs_feature_match_count.unsqueeze(-1),
-#             obs_feature_match_ratio.unsqueeze(-1),
-#             inlier_feature_dist_sum.unsqueeze(-1),
-#             inlier_feature_dist_mean.unsqueeze(-1),
-#             inlier_euclidean_dist_sum.unsqueeze(-1),
-#             inlier_euclidean_dist_mean.unsqueeze(-1),
-#         ], axis=-1)
-#
-#     # eliminate NaN in the input vectors
-#     score_vec[score_vec != score_vec] = 0
-#
-#     return score_vec
+
+def hypoShiftYcbv2BopBatch(hypos, obj_id, bop2ycbv=False):
+    '''
+    If the hypotheses is estimated from the YCB-V original dataset
+    This function will converts them into the BOP dataset
+    Because there is a shift on YCB-V objects between BOP and YCB-V 
+    Both input and output are in meters
+    '''
+    shift = np.array(YCBV_MODEL_SHIFTS[obj_id]).reshape((-1,1))
+    R = hypos[:, :3, :3]
+    t = hypos[:, :3, 3]
+
+    if bop2ycbv:
+        hypos[:, :3, 3] = t*1000 + R.dot(shift).reshape((-1, 3)) # From meter to milimeter
+    else:
+        hypos[:, :3, 3] = t*1000 - R.dot(shift).reshape((-1, 3)) # From meter to milimeter
+
+    hypos[:, :3, 3] = hypos[:, :3, 3] / 1000.0 # From milimeter to meter
+    return hypos
+
+def modelPointsShiftYcbv2Bop(model_points, obj_id, bop2ycbv=False):
+    '''
+    If the model point cloud is sampled from the YCB-V original dataset
+    This function will converts them into the BOP dataset
+    Because there is a shift on YCB-V objects between BOP and YCB-V 
+    Both input and output are in meters
+    '''
+    shift = np.array(YCBV_MODEL_SHIFTS[obj_id]).reshape((1,-1))
+    model_points = model_points.copy()
+    model_points = model_points + shift / 1000.0
+    return model_points
