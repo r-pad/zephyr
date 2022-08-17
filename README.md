@@ -44,7 +44,7 @@ pip install -e .
 
 ## Download pre-processed dataset
 
-Download pre-processed training and testing data (`ycbv_preprocessed.zip`, `lmo_preprocessed.zip` and `ppf_hypos.zip`) from this Google Drive [link](https://drive.google.com/drive/folders/1Fq-24RAnn0uWAEVauwMZgpqtWYkZCqQI?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage in total. 
+Download pre-processed training and testing data (`ycbv_preprocessed.zip`, `lmo_preprocessed.zip` and `ppf_hypos.zip`) from this Google Drive [link](https://drive.google.com/file/d/12ZLsH3RZiJsHhSt_4tvyVQVRXU1NTLnt/view?usp=sharing) and unzip it in the `python/zephyr/data` folder. The unzipped data takes around 66GB of storage in total. 
 
 The following commands need to be run in `python/zephyr/` folder. 
 ```
